@@ -7,14 +7,14 @@
         goto broke;
 
     $user = $_POST['user'];
-    $pass = $_POST['post'];
+    $pass = $_POST['pass'];
 
-    $query = `INSERT INTO passwords (STR) VALUES ($pass)`;
+    $query = "INSERT INTO passwords (STR) VALUES (\"$pass\")";
     $stmt = $db -> prepare($query);
     $stmt -> execute();
     $p_id = $db -> lastInsertId();
 
-    $query = `INSERT INTO users (NAME, P_ID) VALUES ($user, $p_id)`;
+    $query = "INSERT INTO users (NAME, P_ID) VALUES (\"$user\", \"$p_id\")";
     $stmt = $db -> prepare($query);
 
     if ($stmt -> execute()) {

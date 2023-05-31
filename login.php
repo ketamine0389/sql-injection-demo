@@ -13,14 +13,14 @@
     <body>
         <form method="POST">
             <label for="user">Username:</label>
-            <input id="frmUser" name="user" type="text">
+            <input id="frmUser" name="user" type="text" min="4" max="32" required>
             <label for="pass">Password:</label>
-            <input id="frmPass" name="pass" type="text">
+            <input id="frmPass" name="pass" type="password" min="8" max="128" required>
             <button type="submit">Log in</button>
         </form>
         <a href="signup.php">Not a user?</a>
         <script>
-            $('frm').on('submit', e => {
+            $('form').on('submit', function(e) {
                 e.preventDefault();
             
                 $('form > button').prop('disabled', true);
@@ -29,12 +29,17 @@
                     type: "POST",
                     url: "resources/checkuser.php",
                     data: new FormData(this),
+                    processData: false,
+                    contentType: false,
                     success: function (res) {
-                        location.href('posts.php');
+                        if (res == 'success') return location.href = 'posts.php';
+                            alert('Not a user (probably)');
+                            $('form > button').prop('disabled', false);
+                        
                     },
                 }).fail(data => {
                     alert('Not a user (probably)');
-                    $('form > button').prop('disabled', true);
+                    $('form > button').prop('disabled', false);
                 });
             });
         
